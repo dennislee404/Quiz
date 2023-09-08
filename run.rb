@@ -8,50 +8,6 @@
 
 
 
-
-chemistry_questions = [
-				"How many electrons in a Hydrogen (H) atom?",
-				"How many neutrons in a Hydrogen (H) atom?",
-				"If an atom has 13 electrons, how many shells/orbitals will it have?",
-			]
-
-chemistry_options = [
-			["one","two","three","four"],
-			["zero","one","two","three"],
-			["one","two","three","four"]
-		]
-
-chemistry_answer = [
-			"one",
-			"zero",
-			"three"
-		]
-
-chemistry = [chemistry_questions,chemistry_options,chemistry_answer]
-
-
-math_questions = [
-				"what is 5 + 5?",
-				"what is 36 x 3?",
-				"what is 45^2?",
-			]
-
-math_options = [
-			["2","10","4","20"],
-			["6","9","108","81"],
-			["625","1225","2025","90"]
-		]
-
-math_answer = [
-			"10",
-			"108",
-			"2025"
-		]
-
-math = [math_questions,math_options,math_answer]
-
-category = [chemistry,math]
-
 def select_category
 	puts "Please select your category"
 	puts "1. Chemistry"
@@ -60,19 +16,19 @@ def select_category
 	@cat = gets.chomp.to_i-1	
 end
 
-def display_question(index,questions,num)
-	puts "\nQ#{index}. #{questions[num]}"
+def display_question(questions,num)
+	puts "\nQ#{num}. #{questions[num-1]}"
 end
 
 def display_options(options,num)
-	options[num].each_with_index do |option, index|
+	options[num-1].each_with_index do |option, index|
 		puts "#{index+1}. #{option}"
 	end
 end
 
 def check_answer(options,answer,num,score)
 	ans = gets.chomp.to_i
-	if options[num][ans-1] == answer[num]
+	if options[num-1][ans-1] == answer[num-1]
 		puts "correct"
 		score += 1
 	else
@@ -84,14 +40,12 @@ end
 def score_tracking
 end
 
-select_category
-score = 0
-(1..3).each do |index|
-	(0..2).each do |num|
-		display_question(index,category[@cat][0],num)
-		display_options(category[@cat][1],num)
-		score = check_answer(category[@cat][1],category[@cat][2],num,score)
-		puts "Current score: #{score}"
-	end
-end
-puts "Final score: #{score}"
+# select_category
+# score = 0
+# (1..3).each do |num|
+# 	display_question(category[@cat][0],num)
+# 	display_options(category[@cat][1],num)
+# 	score = check_answer(category[@cat][1],category[@cat][2],num,score)
+# 	puts "Current score: #{score}"
+# end
+# puts "Final score: #{score}"
