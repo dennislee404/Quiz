@@ -6,14 +6,20 @@
 # Error Handling: Implement error handling to ensure that user input is valid and within the expected range.
 # Documentation: Provide clear instructions on how to navigate and play the game. Include examples of quiz data formats and how to add new quizzes.
 
+require './datamanager.rb'
 
+def get_name()
+	puts "\nPlease enter your name."
+	gets.chomp
+end
 
-def select_category
-	puts "Please select your category"
-	puts "1. Chemistry"
-	puts "2. Mathematics"
+def select_category(category)
+	puts "\nPlease select your category"
+	category.each do |key, value|
+		puts "#{key}"
+	end
 
-	@cat = gets.chomp.to_i-1	
+	gets.chomp
 end
 
 def display_question(questions,num)
@@ -29,23 +35,74 @@ end
 def check_answer(options,answer,num,score)
 	ans = gets.chomp.to_i
 	if options[num-1][ans-1] == answer[num-1]
-		puts "correct"
+		puts "Correct. The answer is #{answer[num-1]}"
 		score += 1
 	else
-		puts "wrong"
+		puts "Wrong. The correct answer is #{answer[num-1]}"
 	end
 	return score
 end
 
-def score_tracking
+def update_leaderboard(leaderboard,category,player_name,score)
+	if leaderboard[category] == nil
+		leaderboard[category][player_name] = score
+	else
+		if leaderboard[category].has_key?(player_name)
+			if leaderboard[category][player_name] < score
+				leaderboard[category][player_name] = score
+			end
+		else
+			leaderboard[category][player_name] = score
+		end
+	end
 end
 
-# select_category
-# score = 0
-# (1..3).each do |num|
-# 	display_question(category[@cat][0],num)
-# 	display_options(category[@cat][1],num)
-# 	score = check_answer(category[@cat][1],category[@cat][2],num,score)
-# 	puts "Current score: #{score}"
-# end
-# puts "Final score: #{score}"
+def print_leaderboard(leaderboard,category)
+	puts "\nHIGHSCORE - #{category}"
+	leaderboard[category].sort_by(&:last).reverse.each do |player, score|
+		puts "#{player}: #{score}"
+	end	
+end
+
+def restart_game(quiz,leaderboard)
+	puts "Enter 'Y' to play again"
+	restart = gets.chomp.downcase
+	if restart == "y"
+		run_game(quiz,leaderboard)
+	else
+		exit
+	end
+end
+
+def run_game(quiz,leaderboard)
+	puts "Welcome to Elevate Quiz"
+	
+	loop do
+		category = select_category(quiz)
+		unless quiz.include?(category)
+			puts "No such category. Please select again"
+			next
+		end
+
+		player_name = get_name()	
+		
+		loop do
+			score = 0
+			(1..5).each do |num|
+				display_question(quiz[category][0],num)
+				display_options(quiz[category][1],num)
+				score = check_answer(quiz[category][1],quiz[category][2],num,score)
+				puts "Current score: #{score}"
+			end
+			puts "Final score: #{score}"
+			update_leaderboard(leaderboard,category,player_name,score)
+			print_leaderboard(leaderboard,category)
+			restart_game(quiz,leaderboard)
+		end
+	end
+end
+
+quiz = DataManager.load_quiz('quiz.csv')
+leaderboard = DataManager.load_leaderboard('leaderboard.csv')
+
+run_game(quiz,leaderboard)
