@@ -13,9 +13,9 @@ def get_name()
 	gets.chomp
 end
 
-def select_category(category)
+def select_category(quiz)
 	puts "\nPlease select your category"
-	category.each do |key, value|
+	quiz.each do |key, value|
 		puts "#{key}"
 	end
 
@@ -33,14 +33,27 @@ def display_options(options,num)
 end
 
 def check_answer(options,answer,num,score)
-	ans = gets.chomp.to_i
-	if options[num-1][ans-1] == answer[num-1]
-		puts "Correct. The answer is #{answer[num-1]}"
-		score += 1
-	else
-		puts "Wrong. The correct answer is #{answer[num-1]}"
+	loop do	
+		begin
+		ans = Integer(gets.chomp)
+		rescue ArgumentError
+			puts "Please enter a number between 1-4"
+			next
+		end
+
+		unless ans < 5 and ans > 0
+			puts "Please enter a number between 1-4"
+			next
+		end
+
+		if options[num-1][ans-1] == answer[num-1]
+			puts "Correct. The answer is #{answer[num-1]}"
+			score += 1
+		else
+			puts "Wrong. The correct answer is #{answer[num-1]}"
+		end
+		return score
 	end
-	return score
 end
 
 def update_leaderboard(leaderboard,category,player_name,score)
@@ -65,11 +78,12 @@ def print_leaderboard(leaderboard,category)
 end
 
 def restart_game(quiz,leaderboard)
-	puts "Enter 'Y' to play again"
+	puts "\nEnter 'Y' to play again"
 	restart = gets.chomp.downcase
 	if restart == "y"
 		run_game(quiz,leaderboard)
 	else
+		DataManager.save_leaderboard('leaderboard.csv',leaderboard)
 		exit
 	end
 end

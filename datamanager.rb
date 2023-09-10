@@ -28,6 +28,17 @@ class DataManager
 		end
 		leaderboard
 	end
+
+	def self.save_leaderboard(filename,leaderboard)
+		File.open(filename, "w+") do |file|
+			file.puts "Category,Name,Score"
+			leaderboard.each do |category, highscore|
+				highscore.each do |name, score|
+					file.puts "#{category},#{name},#{score}"
+				end
+			end
+		end
+	end
 end
 
 # leaderboard = DataManager.load_leaderboard('leaderboard.csv')
