@@ -1,0 +1,51 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elevate Quiz</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+	<div class="container text-center">
+		<h1>Welcome to Elevate Quiz</h1><br>
+
+		<label for="categories">Please select a category</label>
+		<select name="categories" id="categories">
+			<option value="1">General Knowledge</option>
+	    <option value="2">History</option>
+	    <option value="3">Science</option>
+	    <option value="4">Geography</option>
+	    <option value="5">Technology</option>
+	    <option value="6">Mathematics</option>
+	    <option value="7">Movies</option>
+	    <option value="8">Sports</option>
+	    <option value="9">Literature</option>
+	    <option value="10">Music</option>
+	    <option value="11">Nature</option>
+	    <option value="12">Food</option>
+	    <option value="13">Language</option>
+	    <option value="14">Art</option>
+	    <option value="15">World Capitals</option>
+	    <option value="16">Famous Inventors</option>
+	    <option value="17">Celebrities</option>
+	    <option value="18">Mythology</option>
+	    <option value="19">Space</option>
+	    <option value="20">Politics</option>
+		</select><br><br>
+
+		<div id="display">
+			<h3 id="question"></h3>
+			<div class="btn-group-sm">
+				<button class="option btn btn-outline-dark" id="optionA">A</button>
+				<button class="option btn btn-outline-dark" id="optionB">B</button>
+				<button class="option btn btn-outline-dark" id="optionC">C</button>
+				<button class="option btn btn-outline-dark" id="optionD">D</button>
+			</div>
+			<h3 id="feedback"></h3>
+
+			<button class="btn btn-outline-dark" id="next">Next</button>
+		</div>
+	</div>
+	<script type="text/javascript" src="quiz.js"></script>
+</body>
+</html>
